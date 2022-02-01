@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+"https://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="ctrl" class="ma.gov.tp8.controllers.ClientController">
+	<constructor-arg ref="service"/>
+  </bean>
+ <bean id="service" class="ma.gov.tp8.Services.ClientService">
+    <constructor-arg ref="dao"/>
+  </bean>
+  <bean id="dao" class="ma.gov.tp8.DAO.ClientDAO"/>
+</beans>
