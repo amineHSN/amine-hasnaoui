@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+<head>
+<meta charset="UTF-8" />
+<link th:rel="stylesheet"
+	th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
+</head>
+<body>
+	<!-- Navigation -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+		<div class="container">
+			<a class="navbar-brand" href="/">Front Application</a>
+			<a href="javascript: document.logoutForm.submit()" role="menuitem" class="navbar btn-outline-light"> Logout</a>
+
+   <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+      <input hidden type="submit" value="Sign Out"/>
+   </form> 
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">About</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Services</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Contact</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="container" >
+		<div class="row">
+			<div class="col-sm-8">
+				<form action="#" th:action="@{/add}" th:object="${client}"
+					method="post"sec:authorize="hasRole('ADMIN')">
+					<div class="form-group">
+						<input type="text" th:field="*{id}" id="id" placeholder="Id"
+							readonly class="form-control"> <span
+							th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+					</div>
+					<div class="form-group">
+						<label for="nom">Name</label> <input type="text"
+							th:field="*{nom}" id="nom" placeholder="Name"
+							class="form-control">
+					</div>
+					<button type="submit" class="btn btn-success">Add Client</button>
+	
+				</form>
+			</div>
+		</div>
+		<!-- row end-->
+		<div >
+			<div class="col-lg-12">
+				<table>
+					<thead>
+						<tr>
+							<th scope="col">Photo</th>
+							<th scope="col">Id</th>
+							<th scope="col">Nom</th>
+							<th scope="col" sec:authorize="hasRole('ADMIN')">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="client : ${clients}">
+							<td>
+								<div class="event-img">
+									<img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+										alt="" />
+								</div>
+							</td>
+							<td th:text="${client.id}"></td>
+							<td th:text="${client.nom}"></td>
+							<td class="row" sec:authorize="hasRole('ADMIN')"><a class="btn btn-primary"
+								th:href="@{|/update/${client.id}/${client.nom}|}"> <i
+									class="fa fa-edit fa-lg"></i> Edit
+							</a > <a class="btn btn-danger"
+								th:href="@{|/delete/${client.id}|}"> <i
+									class="fa fa-trash fa-lg" ></i> Delete
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- /col end-->
+		</div>
+	</div>
+	
+	<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+	<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
